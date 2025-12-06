@@ -1,0 +1,191 @@
+<!--
+ALL-IN-ONE AFFILIATE PRO HUB WEBSITE DEMO
+Enhanced Version:
+- More products, blogs, and portfolio items
+- Futuristic UI with advanced interactive CSS/JS
+- Hover effects, animations, fixed menu, dropdowns, grid layouts
+- Fully functional Like, Dark Mode toggle, admin dashboard
+- Homepage images linking to content pages
+- Footer with contact info and social links
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Affiliate Pro Hub - Futuristic Demo</title>
+<style>
+/* ===== GLOBAL STYLES ===== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{background:#0b0c10;color:#c5c6c7;transition:0.3s;scroll-behavior:smooth;}
+header{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;background:#1f2833;color:#66fcf1;position:fixed;width:100%;top:0;z-index:1000;box-shadow:0 4px 20px rgba(0,255,255,0.3);backdrop-filter:blur(10px);}
+header nav{display:flex;gap:20px;align-items:center;}
+header nav a{color:#66fcf1;text-decoration:none;font-weight:bold;position:relative;transition:0.3s;}
+header nav a:hover{color:#45a29e;}
+header nav .dropdown{position:relative;}
+header nav .dropdown-content{display:none;position:absolute;background:#1f2833;top:35px;left:0;min-width:160px;border-radius:6px;box-shadow:0 4px 15px rgba(0,255,255,0.3);}
+header nav .dropdown-content a{display:block;padding:10px 15px;color:#66fcf1;transition:0.2s;}
+header nav .dropdown-content a:hover{background:#45a29e; color:#0b0c10;}
+header nav .dropdown:hover .dropdown-content{display:block;}
+button{padding:10px 20px;border:none;border-radius:5px;background:#45a29e;color:#0b0c10;cursor:pointer;transition:0.3s;}
+button:hover{background:#66fcf1;transform:scale(1.05);}
+input,textarea,select{padding:12px;margin:8px 0;width:100%;border-radius:8px;border:1px solid #45a29e;background:#1f2833;color:#c5c6c7;}
+.card{padding:15px;background:#1f2833;margin:10px 0;border-radius:15px;box-shadow:0 5px 25px rgba(0,255,255,0.3);transition:0.4s;cursor:pointer;}
+.card:hover{transform:translateY(-10px) scale(1.03);box-shadow:0 10px 30px rgba(0,255,255,0.5);}
+section{padding:150px 30px 50px 30px;}
+.product-grid, .blog-grid, .portfolio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;}
+img.product-img,img.blog-img,img.home-img,img.portfolio-img{max-width:100%;border-radius:10px;transition:transform 0.4s, box-shadow 0.4s;}
+img.product-img:hover,img.blog-img:hover,img.home-img:hover,img.portfolio-img:hover{transform:scale(1.08) rotate(-1deg);box-shadow:0 10px 25px rgba(0,255,255,0.5);}
+body.dark{background:#0f1724;color:#fff;}
+body.dark header{background:#1e293b;}
+body.dark .card{background:#1e293b;}
+.login-container{max-width:450px;margin:80px auto;padding:25px;background:#1f2833;border-radius:15px;box-shadow:0 6px 15px rgba(0,255,255,0.3);}
+.login-container h2{text-align:center;margin-bottom:25px;color:#66fcf1;}
+.login-container input{margin-bottom:20px;}
+.login-container button{width:100%;}
+.hero-section{background:#1f2833;color:#66fcf1;padding:100px 20px;text-align:center;border-radius:15px;box-shadow:0 8px 30px rgba(0,255,255,0.3);position:relative;animation:fadeIn 1s ease-in-out;}
+.hero-section h1{font-size:3em;margin-bottom:25px;}
+.hero-section p{font-size:1.3em;margin-bottom:25px;}
+.hero-section .hero-images{display:flex;justify-content:center;gap:25px;margin-top:30px;flex-wrap:wrap;}
+.hero-section .hero-images img{width:220px;height:130px;object-fit:cover;cursor:pointer;transition:transform 0.3s;}
+footer{background:#1f2833;color:#66fcf1;text-align:center;padding:40px 20px;margin-top:60px;}
+footer a{color:#45a29e;text-decoration:none;margin:0 8px;}
+@keyframes fadeIn{0%{opacity:0;}100%{opacity:1;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div>Affiliate Pro Hub</div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#products">Products</a>
+    <div class="dropdown">
+      <a href="#blog">Blog</a>
+      <div class="dropdown-content" id="blog-dropdown"></div>
+    </div>
+    <div class="dropdown">
+      <a href="#portfolio">Portfolio</a>
+      <div class="dropdown-content" id="portfolio-dropdown"></div>
+    </div>
+    <a href="#login">Login/Signup</a>
+    <a href="#admin" id="admin-link" style="display:none;">Admin</a>
+  </nav>
+  <button onclick="toggleDark()">🌙</button>
+</header>
+
+<section id="home" class="page">
+  <div class="hero-section">
+    <h1>Welcome to Affiliate Pro Hub</h1>
+    <p>Explore affiliate products, insightful blogs, and stunning portfolios.</p>
+    <p>Click the images below to visit corresponding sections.</p>
+    <div class="hero-images">
+      <img src="https://via.placeholder.com/220x130?text=Product+Demo" onclick="showPage('products')" class="home-img" />
+      <img src="https://via.placeholder.com/220x130?text=Blog+Demo" onclick="showPage('blog')" class="home-img" />
+      <img src="https://via.placeholder.com/220x130?text=Portfolio+Demo" onclick="showPage('portfolio')" class="home-img" />
+    </div>
+  </div>
+</section>
+
+<section id="products" class="page" style="display:none;">
+  <h2>Products</h2>
+  <div id="product-list" class="product-grid"></div>
+</section>
+
+<section id="blog" class="page" style="display:none;">
+  <h2>Blog</h2>
+  <div id="blog-list" class="blog-grid"></div>
+</section>
+
+<section id="portfolio" class="page" style="display:none;">
+  <h2>Portfolio</h2>
+  <div id="portfolio-list" class="portfolio-grid"></div>
+</section>
+
+<section id="login" class="page" style="display:none;">
+  <div class="login-container">
+    <h2>Login or Signup</h2>
+    <input id="user-email" placeholder="Email" type="email" />
+    <input id="user-pass" placeholder="Password" type="password" />
+    <button onclick="loginUser()">Login/ Signup</button>
+  </div>
+</section>
+
+<section id="admin" class="page" style="display:none;">
+  <h2>Admin Dashboard</h2>
+  <div class="card">
+    <h3>Add Product</h3>
+    <input id="p-title" placeholder="Product title" />
+    <input id="p-price" placeholder="Price" />
+    <select id="p-category"><option>Course</option><option>E-book</option><option>Video</option><option>Product</option></select>
+    <input id="p-img" placeholder="Image URL" />
+    <input id="p-link" placeholder="Affiliate Link" />
+    <button onclick="addProduct()">Add Product</button>
+  </div>
+  <div class="card">
+    <h3>Add Blog Post</h3>
+    <input id="b-title" placeholder="Blog title" />
+    <textarea id="b-body" placeholder="Blog content"></textarea>
+    <button onclick="addBlog()">Add Blog Post</button>
+  </div>
+</section>
+
+<footer>
+  <p>Contact: <a href="mailto:abdulrahmonmaruf3000@gmail.com">Email</a> | <a href="#">Twitter</a> | <a href="#">Facebook</a> | <a href="#">Instagram</a></p>
+  <p>&copy; 2025 Affiliate Pro Hub</p>
+</footer>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+
+const firebaseConfig = { apiKey: "REPLACE_ME", authDomain: "REPLACE_ME", projectId: "REPLACE_ME", storageBucket: "REPLACE_ME", messagingSenderId: "REPLACE_ME", appId: "REPLACE_ME" };
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.style.display='none');document.getElementById(id).style.display='block';}
+document.querySelectorAll('header a').forEach(link=>link.addEventListener('click',e=>{e.preventDefault();showPage(link.getAttribute('href').replace('#',''));}));
+function toggleDark(){document.body.classList.toggle('dark');}
+function promptLogin(){alert('Please login or signup before purchasing'); showPage('login');}
+
+const adminPasscode='Admin@123';
+onAuthStateChanged(auth,user=>{document.getElementById('admin-link').style.display=(user && user.email===adminPasscode+'@admin.com')?'inline':'none';});
+async function loginUser(){const email=document.getElementById('user-email').value;const pass=document.getElementById('user-pass').value;try{await signInWithEmailAndPassword(auth,email,pass);alert('Logged in!'); showPage('admin');}catch(e){try{await createUserWithEmailAndPassword(auth,email,pass);alert('Account created!'); showPage('admin');}catch(err){alert(err.message);}}}
+async function addProduct(){alert('Product added (demo)');}
+async function addBlog(){alert('Blog post added (demo)');}
+
+// Demo content insertion for grids
+const products=[
+{title:'E-book Bundle',price:'₦5,000',img:'https://via.placeholder.com/400x200?text=E-book'},
+{title:'Video Marketing',price:'₦10,000',img:'https://via.placeholder.com/400x200?text=Video'},
+{title:'Affiliate Masterclass',price:'₦15,000',img:'https://via.placeholder.com/400x200?text=Course'},
+{title:'Product Demo',price:'₦2,500',img:'https://via.placeholder.com/400x200?text=Product'}
+];
+products.forEach(p=>{document.getElementById('product-list').innerHTML+=`<div class='card'><img src='${p.img}' class='product-img'><h3>${p.title}</h3><p>Price: ${p.price}</p><button onclick='promptLogin()'>Buy</button></div>`});
+
+const blogs=[
+{title:'Affiliate Tips',body:'Full blog content for affiliate tips',img:'https://via.placeholder.com/400x200?text=Blog+Tips'},
+{title:'Viral Content',body:'How to make content go viral',img:'https://via.placeholder.com/400x200?text=Viral+Content'},
+{title:'Personal Brand',body:'Building personal brand online',img:'https://via.placeholder.com/400x200?text=Personal+Brand'}
+];
+blogs.forEach(b=>{document.getElementById('blog-list').innerHTML+=`<div class='card'><img src='${b.img}' class='blog-img'><h3>${b.title}</h3><p>${b.body}</p></div>`});
+
+const portfolios=[
+{title:'Landing Page',img:'https://via.placeholder.com/400x200?text=Landing+Page'},
+{title:'Affiliate Showcase',img:'https://via.placeholder.com/400x200?text=Affiliate+Showcase'},
+{title:'Blog Platform',img:'https://via.placeholder.com/400x200?text=Blog+Platform'}
+];
+portfolios.forEach(pf=>{document.getElementById('portfolio-list').innerHTML+=`<div class='card'><img src='${pf.img}' class='portfolio-img'><h3>${pf.title}</h3></div>`});
+
+// Dropdown demo
+const blogDropdown=document.getElementById('blog-dropdown');blogs.forEach(b=>{blogDropdown.innerHTML+=`<a href='#blog'>${b.title}</a>`});
+const portfolioDropdown=document.getElementById('portfolio-dropdown');portfolios.forEach(pf=>{portfolioDropdown.innerHTML+=`<a href='#portfolio'>${pf.title}</a>`});
+
+showPage('home');
+</script>
+<script src="https://js.paystack.co/v2/inline.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+/* Base Styles */
+body {
+  font-family: Roboto, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #181818;
+  color: #fff;
+}
+
+h1 {
+  font-size: 28px;
+  margin: 20px;
+}
+
+p {
+  font-size: 16px;
+  margin-bottom: 40px;
+}
+
+/* Course Card Grid */
+.coursecard {
+  background-color: #202020;
+  margin: 20px auto;
+  width: 350px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease;
+}
+
+.coursecard:hover {
+  transform: scale(1.03);
+}
+
+/* Image Styling */
+.coursecard img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Content Styling */
+.coursecard_content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.coursecard_content h2 {
+  font-size: 20px;
+  margin: 0;
+  text-align: center;
+}
+
+.coursecard_content h3 {
+  font-size: 16px;
+  margin: 0;
+  text-align: center;
+}
+
+.coursecard_content pre {
+  font-size: 14px;
+  color: #ccc;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+/* Link Styling */
+.coursecard_link {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 15px;
+}
+
+.coursecard_link a {
+  text-decoration: none;
+  color: #3ea6ff;
+  font-weight: bold;
+}
+
+.coursecard_link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Layout */
+@media screen and (min-width: 768px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .coursecard {
+    display: inline-block;
+    vertical-align: top;
+    margin: 20px;
+  }
+}

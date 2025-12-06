@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="freestyle.css" rel="stylesheet">
+    </head>
+    <body>
+ <!-- Floating Particles -->
+<div class="particles"></div>
+
+<!-- Header -->
+<header>
+  <div class="header-content">
+    <div class="logo" onclick="showPage('home')">⚡ ABDUL RAHMON M.B ENTERPRICES </div>
+    <nav>
+      <a href="#" onclick="showPage('home'); return false;">Home</a>
+      <a href="#" onclick="showPage('products'); return false;">Products</a>
+      <div class="dropdown">
+        <a href="#" onclick="showPage('blog'); return false;">Blog</a>
+        <div class="dropdown-content" id="blog-dropdown"></div>
+      </div>
+      <div class="dropdown">
+        <a href="#" onclick="showPage('portfolio'); return false;">Portfolio</a>
+        <div class="dropdown-content" id="portfolio-dropdown"></div>
+      </div>
+      <a href="#" onclick="showPage('login'); return false;" id="auth-link">Login</a>
+      <a href="#" onclick="showPage('admin'); return false;" id="admin-link" style="display:none;">Admin</a>
+      <a href="#" onclick="logout(); return false;" id="logout-link" style="display:none;">Logout</a>
+    </nav>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  </div>
+</header>
+
+<!-- Home Section -->
+<section id="home" class="content-section active">
+  <div class="hero-section">
+    <h1>Welcome to ABDUL RAHMON M.B ENTERPRICES</h1>
+    <p>Your Ultimate Platform for Digital Products, Insightful Blogs, and Stunning Portfolios</p>
+    <p>Explore our curated collection and start your journey to success today</p>
+    <div class="hero-images-container">
+      <div class="hero-images-grid" id="hero-images-grid">
+        <!-- Hero images will be dynamically loaded here -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Products Section -->
+<section id="products" class="content-section">
+  <h2 class="section-title">Premium Products</h2>
+  <div id="products-grid" class="grid"></div>
+</section>
+
+<!-- Blog Section -->
+<section id="blog" class="content-section">
+  <h2 class="section-title">Latest Insights</h2>
+  <div id="blog-grid" class="grid"></div>
+</section>
+
+<!-- Portfolio Section -->
+<section id="portfolio" class="content-section">
+  <h2 class="section-title">Our Portfolio</h2>
+  <div id="portfolio-grid" class="grid"></div>
+</section>
+
+<!-- Login/Signup Section -->
+<section id="login" class="content-section">
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-logo">⚡</div>
+      <h2 class="auth-title">Join ABDUL RAHMON M.B ENTERPRICES</h2>
+      
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchTab('login')">Login</button>
+        <button class="auth-tab" onclick="switchTab('signup')">Sign Up</button>
+      </div>
+      
+      <div id="login-form">
+        <div class="input-group">
+          <input type="email" id="signup-email" placeholder=" " required>
+          <label>Email Address</label>
+        </div>
+        
+        <div class="input-group">
+          <input type="password" id="signup-password" placeholder=" " required oninput="validatePassword()">
+          <label>Password</label>
+          <span class="password-toggle" onclick="togglePassword('signup-password')">👁️</span>
+        </div>
+        
+        <div class="password-requirements" id="password-requirements">
+          Password must contain:
+          <br>• At least 8 characters
+          <br>• One uppercase letter (A-Z)
+          <br>• One lowercase letter (a-z)
+          <br>• One number (0-9)
+          <br>• One special character (!@#$%^&*)
+        </div>
+        
+        <button class="btn" onclick="handleSignup()" id="signup-btn" disabled style="opacity: 0.5;">Create Account</button>
+      </div>
+      
+      <!-- Forgot Password Form -->
+      <div id="forgot-form" style="display:none;">
+        <div class="input-group">
+          <input type="email" id="forgot-email" placeholder=" " required>
+          <label>Email Address</label>
+        </div>
+        
+        <button class="btn" onclick="handleForgotPassword()">Reset Password</button>
+        
+        <div class="forgot-password" style="text-align: center; margin-top: 20px;">
+          <a href="#" onclick="switchTab('login'); return false;">Back to Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Admin Dashboard -->
+<section id="admin" class="content-section">
+  <div class="admin-dashboard">
+    <h2 class="section-title">Admin Dashboard</h2>
+    
+    <div class="admin-grid">
+      <!-- Add Product -->
+      <div class="admin-card">
+        <h3>📦 Add Product</h3>
+        <div class="form-group">
+          <label>Product Title</label>
+          <input type="text" id="product-title" placeholder="Enter product title">
+        </div>
+        <div class="form-group">
+          <label>Price (₦)</label>
+          <input type="number" id="product-price" placeholder="5000">
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="product-category">
+            <option>Course</option>
+            <option>E-book</option>
+            <option>Video</option>
+            <option>Software</option>
+            <option>Template</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="url" id="product-image" placeholder="https://...">
+          <small style="color: #888; display: block; margin-top: 5px;">
+            💡 Tip: Use Unsplash or upload to imgbb.com for image URLs
+          </small>
+        </div>
+        <div class="form-group">
+          <label>Affiliate Link</label>
+          <input type="url" id="product-link" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="product-desc" placeholder="Product description..."></textarea>
+        </div>
+        <button class="btn" onclick="addProduct()">Add Product</button>
+        
+        <div class="item-list">
+          <h4 style="color: var(--primary); margin: 25px 0 15px;">Manage Products</h4>
+          <div id="products-list"></div>
+        </div>
+      </div>
+      
+      <!-- Add Blog Post -->
+      <div class="admin-card">
+        <h3>✍️ Add Blog Post</h3>
+        <div class="form-group">
+          <label>Blog Title</label>
+          <input type="text" id="blog-title" placeholder="Enter blog title">
+        </div>
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="url" id="blog-image" placeholder="https://...">
+          <small style="color: #888; display: block; margin-top: 5px;">
+            💡 Tip: Use Unsplash or upload to imgbb.com for image URLs
+          </small>
+        </div>
+        <div class="form-group">
+          <label>Content</label>
+          <textarea id="blog-content" placeholder="Write your blog content here..." rows="6"></textarea>
+        </div>
+        <button class="btn" onclick="addBlog()">Publish Blog</button>
+        
+        <div class="item-list">
+          <h4 style="color: var(--primary); margin: 25px 0 15px;">Manage Blogs</h4>
+          <div id="blogs-list"></div>
+        </div>
+      </div>
+      
+      <!-- Add Portfolio Item -->
+      <div class="admin-card">
+        <h3>🎨 Add Portfolio</h3>
+        <div class="form-group">
+          <label>Project Title</label>
+          <input type="text" id="portfolio-title" placeholder="Enter project title">
+        </div>
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="url" id="portfolio-image" placeholder="https://...">
+          <small style="color: #888; display: block; margin-top: 5px;">
+            💡 Tip: Use Unsplash or upload to imgbb.com for image URLs
+          </small>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="portfolio-desc" placeholder="Project description..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Project Link (Optional)</label>
+          <input type="url" id="portfolio-link" placeholder="https://...">
+        </div>
+        <button class="btn" onclick="addPortfolio()">Add to Portfolio</button>
+        
+        <div class="item-list">
+          <h4 style="color: var(--primary); margin: 25px 0 15px;">Manage Portfolio</h4>
+          <div id="portfolios-list"></div>
+        </div>
+      </div>
+      
+      <!-- Manage Homepage Images -->
+      <div class="admin-card">
+        <h3>🖼️ Manage Homepage Images</h3>
+        <div class="form-group">
+          <label>Image Title</label>
+          <input type="text" id="hero-title" placeholder="e.g., Products, Blog, Portfolio">
+        </div>
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="url" id="hero-image" placeholder="https://...">
+          <small style="color: #888; display: block; margin-top: 5px;">
+            💡 Tip: Use Unsplash or upload to imgbb.com for image URLs
+          </small>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" id="hero-description" placeholder="Short description">
+        </div>
+        <div class="form-group">
+          <label>Link To Page</label>
+          <select id="hero-page">
+            <option value="products">Products</option>
+            <option value="blog">Blog</option>
+            <option value="portfolio">Portfolio</option>
+          </select>
+        </div>
+        <button class="btn" onclick="addHeroImage()">Add Homepage Image</button>
+        
+        <div class="item-list">
+          <h4 style="color: var(--primary); margin: 25px 0 15px;">Manage Homepage Images</h4>
+          <div id="hero-images-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-links">
+      <a href="mailto:support@affiliateprohub.com">📧 Email Us</a>
+      <a href="#">📞 Contact</a>
+      <a href="#">ℹ️ About</a>
+      <a href="#">💼 Careers</a>
+    </div>
+    
+    <div class="social-links">
+      <a href="#" title="Twitter">🐦</a>
+      <a href="#" title="Facebook">📘</a>
+      <a href="#" title="Instagram">📷</a>
+      <a href="#" title="LinkedIn">💼</a>
+      <a href="#" title="YouTube">▶️</a>
+    </div>
+    
+    <p style="margin-top: 30px; color: var(--text);">&copy; ABDUL RAHMON M.B ENTERPRICES. All rights reserved.</p>
+  </div>
+</footer>
+    <script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, setDoc } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+
+// Supabase Configuration
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+// Firebase Configuration (Backup)
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Global Variables
+let currentUser = null;
+const ADMIN_EMAIL = 'admin@affiliateprohub.com';
+
+// Create Floating Particles
+function createParticles() {
+  const particlesContainer = document.querySelector('.particles');
+  for (let i = 0; i < 20; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.top = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 15 + 's';
+    particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+    particlesContainer.appendChild(particle);
+  }
+}
+
+createParticles();
+
+// Auth State Observer
+onAuthStateChanged(auth, (user) => {
+  currentUser = user;
+  updateAuthUI();
+  if (user && user.email === ADMIN_EMAIL) {
+    document.getElementById('admin-link').style.display = 'inline';
+    loadAdminData();
+  } else {
+    document.getElementById('admin-link').style.display = 'none';
+  }
+});
+
+// Update Auth UI
+function updateAuthUI() {
+  const authLink = document.getElementById('auth-link');
+  const logoutLink = document.getElementById('logout-link');
+  
+  if (currentUser) {
+    authLink.style.display = 'none';
+    logoutLink.style.display = 'inline';
+  } else {
+    authLink.style.display = 'inline';
+    logoutLink.style.display = 'none';
+  }
+}
+
+// Page Navigation
+window.showPage = function(pageId) {
+  document.querySelectorAll('.content-section').forEach(section => {
+    section.classList.remove('active');
+  });
+  
+  const page = document.getElementById(pageId);
+  if (page) {
+    page.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  
+  if (pageId === 'products') loadProducts();
+  if (pageId === 'blog') loadBlogs();
+  if (pageId === 'portfolio') loadPortfolios();
+  if (pageId === 'home') loadHeroImages();
+}
+
+// Theme Toggle
+window.toggleTheme = function() {
+  document.body.style.filter = document.body.style.filter === 'invert(1) hue-rotate(180deg)' ? '' : 'invert(1) hue-rotate(180deg)';
+}
+
+// Auth Tab Switching
+window.switchTab = function(tab) {
+  const tabs = document.querySelectorAll('.auth-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  
+  document.getElementById('login-form').style.display = 'none';
+  document.getElementById('signup-form').style.display = 'none';
+  document.getElementById('forgot-form').style.display = 'none';
+  
+  if (tab === 'login') {
+    tabs[0].classList.add('active');
+    document.getElementById('login-form').style.display = 'block';
+  } else if (tab === 'signup') {
+    tabs[1].classList.add('active');
+    document.getElementById('signup-form').style.display = 'block';
+  }
+}
+
+// Show Forgot Password
+window.showForgotPassword = function() {
+  document.getElementById('login-form').style.display = 'none';
+  document.getElementById('signup-form').style.display = 'none';
+  document.getElementById('forgot-form').style.display = 'block';
+  
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+}
+
+// Password Toggle
+window.togglePassword = function(inputId) {
+  const input = document.getElementById(inputId);
+  const type = input.type === 'password' ? 'text' : 'password';
+  input.type = type;
+}
+
+// Validate Password
+window.validatePassword = function() {
+  const password = document.getElementById('signup-password').value;
+  const requirements = document.getElementById('password-requirements');
+  const signupBtn = document.getElementById('signup-btn');
+  
+  const hasMinLength = password.length >= 8;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  
+  const isValid = hasMinLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecial;
+  
+  if (isValid) {
+    requirements.classList.add('valid');
+    requirements.textContent = '✓ Password meets all requirements!';
+    signupBtn.disabled = false;
+    signupBtn.style.opacity = '1';
+  } else {
+    requirements.classList.remove('valid');
+    requirements.innerHTML = `Password must contain:
+      <br>• ${hasMinLength ? '✓' : '✗'} At least 8 characters
+      <br>• ${hasUpperCase ? '✓' : '✗'} One uppercase letter (A-Z)
+      <br>• ${hasLowerCase ? '✓' : '✗'} One lowercase letter (a-z)
+      <br>• ${hasNumber ? '✓' : '✗'} One number (0-9)
+      <br>• ${hasSpecial ? '✓' : '✗'} One special character (!@#$%^&*)`;
+    signupBtn.disabled = true;
+    signupBtn.style.opacity = '0.5';
+  }
+}
+
+// Show Toast
+function showToast(message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.animation = 'slideInRight 0.5s ease reverse';
+    setTimeout(() => toast.remove(), 500);
+  }, 3000);
+}
+
+// Handle Login
+window.handleLogin = async function() {
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+  
+  if (!email || !password) {
+    showToast('Please fill in all fields', 'error');
+    return;
+  }
+  
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    showToast('Login successful! Welcome back!');
+    showPage('home');
+  } catch (error) {
+    showToast(error.message, 'error');
+  }
+}
+
+// Handle Signup
+window.handleSignup = async function() {
+  const name = document.getElementById('signup-name').value;
+  const email = document.getElementById('signup-email').value;
+  const password = document.getElementById('signup-password').value;
+  
+  if (!name || !email || !password) {
+    showToast('Please fill in all fields', 'error');
+    return;
+  }
+  
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    showToast('Account created successfully! Welcome!');
+    showPage('home');
+  } catch (error) {
+    showToast(error.message, 'error');
+  }
+}
+
+// Handle Forgot Password
+window.handleForgotPassword = async function() {
+  const email = document.getElementById('forgot-email').value;
+  
+  if (!email) {
+    showToast('Please enter your email address', 'error');
+    return;
+  }
+  
+  try {
+    await sendPasswordResetEmail(auth, email);
+    showToast('Password reset email sent! Check your inbox.');
+    switchTab('login');
+  } catch (error) {
+    showToast(error.message, 'error');
+  }
+}
+
+// Logout
+window.logout = async function() {
+  try {
+    await signOut(auth);
+    showToast('Logged out successfully');
+    showPage('home');
+  } catch (error) {
+    showToast(error.message, 'error');
+  }
+}
+
+// LocalStorage Helper Functions
+function saveToLocal(key, data) {
+  const existing = JSON.parse(localStorage.getItem(key) || '[]');
+  existing.push({ ...data, id: Date.now().toString() });
+  localStorage.setItem(key, JSON.stringify(existing));
+  return existing[existing.length - 1].id;
+}
+
+function getFromLocal(key) {
+  return JSON.parse(localStorage.getItem(key) || '[]');
+}
+
+function deleteFromLocal(key, id) {
+  const existing = JSON.parse(localStorage.getItem(key) || '[]');
+  const filtered = existing.filter(item => item.id !== id);
+  localStorage.setItem(key, JSON.stringify(filtered));
+}
+
+// Add Product
+window.addProduct = async function() {
+  if (!currentUser || currentUser.email !== ADMIN_EMAIL) {
+    showToast('Admin access required', 'error');
+    return;
+  }
+  
+  const title = document.getElementById('product-title').value;
+  const price = document.getElementById('product-price').value;
+  const category = document.getElementById('product-category').value;
+  const image = document.getElementById('product-image').value;
+  const link = document.getElementById('product-link').value;
+  const description = document.getElementById('product-desc').value;
+  
+  if (!title || !price || !image || !link) {
+    showToast('Please fill in all required fields', 'error');
+    return;
+  }
+  
+  const productData = {
+    title,
+    price: parseFloat(price),
+    category,
+    image,
+    link,
+    description,
+    createdAt: new Date().toISOString()
+  };
+  
+  try {
+    saveToLocal('products', productData);
+    showToast('Product added successfully!');
+    
+    document.getElementById('product-title').value = '';
+    document.getElementById('product-price').value = '';
+    document.getElementById('product-image').value = '';
+    document.getElementById('product-link').value = '';
+    document.getElementById('product-desc').value = '';
+    
+    loadAdminData();
+    loadProducts();
+  } catch (error) {
+    showToast(error.message, 'error');
+  }
+}
+
+// Add Blog
+window.addBlog = async function() {
+  if (!currentUser || currentUser.email !== ADMIN_EMAIL) {
+    showToast('Admin access required', 'error');
+    return;
+  }
+  
+  const title = document.getElementById('blog-title').value;
+  const image = document.getElementById('blog-image').value;
+  const content = document.getElementById('blog-content').value;
+  
+  if (!title || !image || !content) {
+    showToast('Please fill in all fields', 'error');
+    return;
+  }
+  
+  const blogData = {
+    title,
+    image,
+    content,
+    createdAt: new Date().toISOString()
+  };
+  
+  try {
+    saveToLocal('blogs', blogData);
+    showToast('Blog post published successfully!');
+    
+    document.getElementById('blog-title').value = '';
+    document.getElementById('blog-image').value = '';
+    document.getElementById('blog-content').value = '';
+    
+    loadAdminData();
+    loadBlogs();
+  } catch (error) {
+    showToast(error.message, 'error');
+  }
+}
+
+// Add Portfolio
+window.addPortfolio = async function() {
+  if (!currentUser || currentUser.email !== ADMIN_EMAIL) {
+    showToast('Admin access required', 'error');
+    return;
+  }
+  
+  const title = document.getElementById('portfolio-title').value;
+  const image = document.getElementById('portfolio-image').value;
+  const description = document.getElementById('portfolio-desc').value;
+  const link = document.getElementById('portfolio-link').value;
+  
+  if (!title || !image || !description) {
+    showToast('Please fill in all required fields', 'error');
+    return;
+  }
+  
+  const portfolioData = {
+    title,
+    image,
+    description,
+    link,
+    createdAt: new Date().toISOString()
+  };
+  
+  try {
+    saveToLocal('portfolios', portfolioData);
+    showToast('Portfolio item added successfully!');
+    
+    document.getElementById('portfolio-title').value = '';
+    document.getElementById('portfolio-image').value = '';
+    document.getElementById('portfolio-desc').value = '';
+    document.getElementById('portfolio-link').value = '';
+    
+    loadAdminData();
+    loadPortfolios();
+  } catch (error) {
+    showToast(error.message, 'error');
+  }
+}
+
+// Add Hero Image
+window.addHeroImage = async function() {
+  if (!currentUser || currentUser.email !== ADMIN_EMAIL) {
+    showToast('Admin access required', 'error');
+    return;
+  }
+  
+  const title = document.getElementById('hero-title').value;
+  const image = document.getElementById('hero-image').value;
+  const description = document.getElementById('hero-description').value;
+  const page = document.getElementById('hero-page').value;
+  
+  if (!title || !image || !description) {
+    showToast('Please fill in all fields', 'error');
+    return;
+  }
+  
+  const heroData = {
+    title,
+    image,
+    description,
+    page,
+    createdAt: new Date().toISOString()
+  };
+  
+  try {
+    saveToLocal('heroImages', heroData);
+    showToast('Homepage image added successfully!');
+    
+    document.getElementById('hero-title').value = '';
+    document.getElementById('hero-image').value = '';
+    document.getElementById('hero-description').value = '';
+    
+    loadAdminData();
+    loadHeroImages();
+  } catch (error) {
+    showToast(error.message, 'error');
+  }
+}
+
+// Delete Item
+window.deleteItem = function(collectionName, id) {
+  if (!currentUser || currentUser.email !== ADMIN_EMAIL) {
+    showToast('Admin access required', 'error');
+    return;
+  }
+  
+  if (!confirm('Are you sure you want to delete this item?')) {
+    return;
+  }
+  
+  try {
+    deleteFromLocal(collectionName, id);
+    showToast('Item deleted successfully!');
+    loadAdminData();
+    
+    if (collectionName === 'products') loadProducts();
+    if (collectionName === 'blogs') loadBlogs();
+    if (collectionName === 'portfolios') loadPortfolios();
+    if (collectionName === 'heroImages') loadHeroImages();
+  } catch (error) {
+    showToast(error.message, 'error');
+  }
+}
+
+// Load Products
+function loadProducts() {
+  const products = getFromLocal('products');
+  const productsGrid = document.getElementById('products-grid');
+  productsGrid.innerHTML = '';
+  
+  if (products.length === 0) {
+    productsGrid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; font-size: 1.2em;">No products available yet. Admin can add products from the dashboard.</p>';
+    return;
+  }
+  
+  products.forEach((product) => {
+    productsGrid.innerHTML += `
+      <div class="card">
+        <img src="${product.image}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/400x220?text=Product+Image'">
+        <div class="card-content">
+          <span class="card-category">${product.category}</span>
+          <h3 class="card-title">${product.title}</h3>
+          <p class="card-price">₦${product.price.toLocaleString()}</p>
+          <p>${product.description || ''}</p>
+          <button class="btn" onclick="purchaseProduct('${product.link}')">Buy Now</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// Load Blogs
+function loadBlogs() {
+  const blogs = getFromLocal('blogs');
+  const blogGrid = document.getElementById('blog-grid');
+  const blogDropdown = document.getElementById('blog-dropdown');
+  
+  blogGrid.innerHTML = '';
+  blogDropdown.innerHTML = '';
+  
+  if (blogs.length === 0) {
+    blogGrid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; font-size: 1.2em;">No blog posts available yet. Admin can add blogs from the dashboard.</p>';
+    return;
+  }
+  
+  blogs.forEach((blog) => {
+    blogGrid.innerHTML += `
+      <div class="card">
+        <img src="${blog.image}" alt="${blog.title}" onerror="this.src='https://via.placeholder.com/400x220?text=Blog+Image'">
+        <div class="card-content">
+          <h3 class="card-title">${blog.title}</h3>
+          <p>${blog.content.substring(0, 200)}${blog.content.length > 200 ? '...' : ''}</p>
+          <button class="btn" onclick="showToast('Full article: ${blog.title.replace(/'/g, '')}')">Read More</button>
+        </div>
+      </div>
+    `;
+    
+    blogDropdown.innerHTML += `<a href="#" onclick="showPage('blog'); return false;">${blog.title}</a>`;
+  });
+}
+
+// Load Portfolios
+function loadPortfolios() {
+  const portfolios = getFromLocal('portfolios');
+  const portfolioGrid = document.getElementById('portfolio-grid');
+  const portfolioDropdown = document.getElementById('portfolio-dropdown');
+  
+  portfolioGrid.innerHTML = '';
+  portfolioDropdown.innerHTML = '';
+  
+  if (portfolios.length === 0) {
+    portfolioGrid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; font-size: 1.2em;">No portfolio items available yet. Admin can add items from the dashboard.</p>';
+    return;
+  }
+  
+  portfolios.forEach((portfolio) => {
+    portfolioGrid.innerHTML += `
+      <div class="card">
+        <img src="${portfolio.image}" alt="${portfolio.title}" onerror="this.src='https://via.placeholder.com/400x220?text=Portfolio+Image'">
+        <div class="card-content">
+          <h3 class="card-title">${portfolio.title}</h3>
+          <p>${portfolio.description}</p>
+          ${portfolio.link ? `<button class="btn" onclick="window.open('${portfolio.link}', '_blank')">View Project</button>` : ''}
+        </div>
+      </div>
+    `;
+    
+    portfolioDropdown.innerHTML += `<a href="#" onclick="showPage('portfolio'); return false;">${portfolio.title}</a>`;
+  });
+}
+
+// Load Hero Images
+function loadHeroImages() {
+  const heroImages = getFromLocal('heroImages');
+  const heroGrid = document.getElementById('hero-images-grid');
+  
+  heroGrid.innerHTML = '';
+  
+  if (heroImages.length === 0) {
+    // Default images if none added
+    heroGrid.innerHTML = `
+      <div class="hero-img-card" onclick="showPage('products')">
+        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=220&fit=crop" alt="Products">
+        <div class="hero-img-overlay">
+          <h3>Premium Products</h3>
+          <p>Explore our digital marketplace</p>
+        </div>
+      </div>
+      <div class="hero-img-card" onclick="showPage('blog')">
+        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400&h=220&fit=crop" alt="Blog">
+        <div class="hero-img-overlay">
+          <h3>Insightful Blog</h3>
+          <p>Read the latest articles</p>
+        </div>
+      </div>
+      <div class="hero-img-card" onclick="showPage('portfolio')">
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=220&fit=crop" alt="Portfolio">
+        <div class="hero-img-overlay">
+          <h3>Our Portfolio</h3>
+          <p>View our creative work</p>
+        </div>
+      </div>
+    `;
+    return;
+  }
+  
+  heroImages.forEach((hero) => {
+    heroGrid.innerHTML += `
+      <div class="hero-img-card" onclick="showPage('${hero.page}')">
+        <img src="${hero.image}" alt="${hero.title}" onerror="this.src='https://via.placeholder.com/400x220?text=${hero.title}'">
+        <div class="hero-img-overlay">
+          <h3>${hero.title}</h3>
+          <p>${hero.description}</p>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// Load Admin Data
+function loadAdminData() {
+  if (!currentUser || currentUser.email !== ADMIN_EMAIL) return;
+  
+  // Load Products for Admin
+  const products = getFromLocal('products');
+  const productsList = document.getElementById('products-list');
+  productsList.innerHTML = '';
+  
+  products.forEach((product) => {
+    productsList.innerHTML += `
+      <div class="item-card">
+        <div class="item-info">
+          <h4>${product.title}</h4>
+          <p>₦${product.price.toLocaleString()} - ${product.category}</p>
+        </div>
+        <div class="item-actions">
+          <button class="btn btn-small btn-danger" onclick="deleteItem('products', '${product.id}')">Delete</button>
+        </div>
+      </div>
+    `;
+  });
+  
+  // Load Blogs for Admin
+  const blogs = getFromLocal('blogs');
+  const blogsList = document.getElementById('blogs-list');
+  blogsList.innerHTML = '';
+  
+  blogs.forEach((blog) => {
+    blogsList.innerHTML += `
+      <div class="item-card">
+        <div class="item-info">
+          <h4>${blog.title}</h4>
+        </div>
+        <div class="item-actions">
+          <button class="btn btn-small btn-danger" onclick="deleteItem('blogs', '${blog.id}')">Delete</button>
+        </div>
+      </div>
+    `;
+  });
+  
+  // Load Portfolios for Admin
+  const portfolios = getFromLocal('portfolios');
+  const portfoliosList = document.getElementById('portfolios-list');
+  portfoliosList.innerHTML = '';
+  
+  portfolios.forEach((portfolio) => {
+    portfoliosList.innerHTML += `
+      <div class="item-card">
+        <div class="item-info">
+          <h4>${portfolio.title}</h4>
+        </div>
+        <div class="item-actions">
+          <button class="btn btn-small btn-danger" onclick="deleteItem('portfolios', '${portfolio.id}')">Delete</button>
+        </div>
+      </div>
+    `;
+  });
+  
+  // Load Hero Images for Admin
+  const heroImages = getFromLocal('heroImages');
+  const heroImagesList = document.getElementById('hero-images-list');
+  heroImagesList.innerHTML = '';
+  
+  heroImages.forEach((hero) => {
+    heroImagesList.innerHTML += `
+      <div class="item-card">
+        <div class="item-info">
+          <h4>${hero.title}</h4>
+          <p>Links to: ${hero.page}</p>
+        </div>
+        <div class="item-actions">
+          <button class="btn btn-small btn-danger" onclick="deleteItem('heroImages', '${hero.id}')">Delete</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// Purchase Product
+window.purchaseProduct = function(link) {
+  if (!currentUser) {
+    showToast('Please login to purchase', 'error');
+    showPage('login');
+    return;
+  }
+  
+  window.open(link, '_blank');
+  showToast('Redirecting to product page...');
+}
+
+// Initialize - Load all data
+loadProducts();
+loadBlogs();
+loadPortfolios();
+loadHeroImages();
+</script>
+</body>
+</html>
